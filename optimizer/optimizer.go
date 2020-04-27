@@ -1,8 +1,8 @@
 package optimizer
 
 import (
-	. "github.com/antonmedv/expr/ast"
-	"github.com/antonmedv/expr/conf"
+	. "github.com/metronlab/expr/ast"
+	"github.com/metronlab/expr/conf"
 )
 
 func Optimize(node *Node, config *conf.Config) error {

@@ -3,7 +3,7 @@ package optimizer
 import (
 	"math"
 
-	. "github.com/antonmedv/expr/ast"
+	. "github.com/metronlab/expr/ast"
 )
 
 type fold struct {

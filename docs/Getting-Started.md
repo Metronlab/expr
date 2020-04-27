@@ -9,7 +9,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/antonmedv/expr"
+	"github.com/metronlab/expr"
 )
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 
 ## Compile
 
-Usually we want to compile the code on save (For example, in [web user interface](https://antonmedv.github.io/expr/)).  
+Usually we want to compile the code on save (For example, in [web user interface](https://metronlab.github.io/expr/)).  
 
 ```go
 package main
@@ -37,7 +37,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/antonmedv/expr"
+	"github.com/metronlab/expr"
 )
 
 func main() {
@@ -74,7 +74,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/antonmedv/expr"
+	"github.com/metronlab/expr"
 )
 
 type Env struct {

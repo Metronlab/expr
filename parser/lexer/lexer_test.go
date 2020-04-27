@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/antonmedv/expr/file"
-	. "github.com/antonmedv/expr/parser/lexer"
+	"github.com/metronlab/expr/file"
+	. "github.com/metronlab/expr/parser/lexer"
 )
 
 type lexTest struct {

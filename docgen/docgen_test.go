@@ -1,7 +1,7 @@
 package docgen_test
 
 import (
-	. "github.com/antonmedv/expr/docgen"
+	. "github.com/metronlab/expr/docgen"
 	"github.com/sanity-io/litter"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

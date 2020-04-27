@@ -7,9 +7,9 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	. "github.com/antonmedv/expr/ast"
-	"github.com/antonmedv/expr/file"
-	. "github.com/antonmedv/expr/parser/lexer"
+	. "github.com/metronlab/expr/ast"
+	"github.com/metronlab/expr/file"
+	. "github.com/metronlab/expr/parser/lexer"
 )
 
 type associativity int

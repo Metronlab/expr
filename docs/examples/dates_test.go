@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/antonmedv/expr"
+	"github.com/metronlab/expr"
 	"github.com/stretchr/testify/require"
 )
 

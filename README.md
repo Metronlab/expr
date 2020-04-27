@@ -1,7 +1,7 @@
 # Expr 
-[![Build Status](https://travis-ci.org/antonmedv/expr.svg?branch=master)](https://travis-ci.org/antonmedv/expr) 
-[![Go Report Card](https://goreportcard.com/badge/github.com/antonmedv/expr)](https://goreportcard.com/report/github.com/antonmedv/expr) 
-[![GoDoc](https://godoc.org/github.com/antonmedv/expr?status.svg)](https://godoc.org/github.com/antonmedv/expr)
+[![Build Status](https://travis-ci.org/metronlab/expr.svg?branch=master)](https://travis-ci.org/metronlab/expr) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/metronlab/expr)](https://goreportcard.com/report/github.com/metronlab/expr) 
+[![GoDoc](https://godoc.org/github.com/metronlab/expr?status.svg)](https://godoc.org/github.com/metronlab/expr)
 
 <img src="docs/images/logo-small.png" width="150" alt="expr logo" align="right">
 
@@ -27,7 +27,7 @@ product.Stock < 15
 ## Features
 
 * Seamless integration with Go (no need to redefine types)
-* Static typing ([example](https://godoc.org/github.com/antonmedv/expr#example-Env)).
+* Static typing ([example](https://godoc.org/github.com/metronlab/expr#example-Env)).
   ```go
   out, err := expr.Compile(`name + age`)
   // err: invalid operation + (mismatched types string and int)
@@ -40,12 +40,12 @@ product.Stock < 15
   ```coffeescript
   all(Tweets, {.Size <= 280})
   ```
-* Fast ([benchmarks](https://github.com/antonmedv/golang-expression-evaluation-comparison#readme)): uses bytecode virtual machine and optimizing compiler.
+* Fast ([benchmarks](https://github.com/metronlab/golang-expression-evaluation-comparison#readme)): uses bytecode virtual machine and optimizing compiler.
 
 ## Install
 
 ```
-go get github.com/antonmedv/expr
+go get github.com/metronlab/expr
 ```
 
 ## Documentation
@@ -56,12 +56,12 @@ go get github.com/antonmedv/expr
 ## Expr Code Editor
 
 <a href="http://bit.ly/expr-code-editor">
-	<img src="https://antonmedv.github.io/expr/ogimage.png" align="center" alt="Expr Code Editor" width="1200">
+	<img src="https://metronlab.github.io/expr/ogimage.png" align="center" alt="Expr Code Editor" width="1200">
 </a>
 
 Also, I have an embeddable code editor written in JavaScript which allows editing expressions with syntax highlighting and autocomplete based on your types declaration.
 
-[Learn more →](https://antonmedv.github.io/expr/)
+[Learn more →](https://metronlab.github.io/expr/)
 
 ## Examples
 
@@ -72,7 +72,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/antonmedv/expr"
+	"github.com/metronlab/expr"
 )
 
 func main() {
@@ -105,7 +105,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/antonmedv/expr"
+	"github.com/metronlab/expr"
 )
 
 type Tweet struct {
@@ -162,7 +162,7 @@ Also expr provides powerful tool [exe](cmd/exe) for debugging. It has interactiv
 	</tr>
 </table>
 
-[Add you company too](https://github.com/antonmedv/expr/edit/master/README.md)
+[Add you company too](https://github.com/metronlab/expr/edit/master/README.md)
 
 ## License
 

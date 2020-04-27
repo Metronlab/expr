@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/antonmedv/expr/checker"
-	"github.com/antonmedv/expr/compiler"
-	"github.com/antonmedv/expr/optimizer"
-	"github.com/antonmedv/expr/parser"
-	. "github.com/antonmedv/expr/vm"
 	"github.com/gdamore/tcell"
+	"github.com/metronlab/expr/checker"
+	"github.com/metronlab/expr/compiler"
+	"github.com/metronlab/expr/optimizer"
+	"github.com/metronlab/expr/parser"
+	. "github.com/metronlab/expr/vm"
 	"github.com/rivo/tview"
 	"github.com/sanity-io/litter"
 )

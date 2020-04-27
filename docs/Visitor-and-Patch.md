@@ -1,6 +1,6 @@
 # Visitor and Patch
 
-[ast](https://pkg.go.dev/github.com/antonmedv/expr/ast?tab=doc) package provides `ast.Visitor` interface and `ast.Walk` function. 
+[ast](https://pkg.go.dev/github.com/metronlab/expr/ast?tab=doc) package provides `ast.Visitor` interface and `ast.Walk` function. 
 You can use it for traveling ast tree of compiled program.
 
 For example if you want to collect all variable names:
@@ -11,8 +11,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/antonmedv/expr/ast"
-	"github.com/antonmedv/expr/parser"
+	"github.com/metronlab/expr/ast"
+	"github.com/metronlab/expr/parser"
 )
 
 type visitor struct {
@@ -58,8 +58,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/antonmedv/expr"
-	"github.com/antonmedv/expr/ast"
+	"github.com/metronlab/expr"
+	"github.com/metronlab/expr/ast"
 )
 
 func main() {
