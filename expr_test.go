@@ -859,14 +859,38 @@ func TestExpr(t *testing.T) {
 			`Concat("a", 1, [])`,
 			`a1[]`,
 		},
+		{
+			`3 & 42`,
+			2,
+		},
+		{
+			`3 & 9 + 5`,
+			6,
+		},
+		{
+			`3 & 42 / 2`,
+			1,
+		},
+		{
+			`3 & 42`,
+			2,
+		},
+		{
+			`0 & 0`,
+			0,
+		},
+		{
+			`-(2-5)**3-2&(+4-3)+-2`,
+			float64(25),
+		},
 	}
 
 	for _, tt := range tests {
 		program, err := expr.Compile(tt.code, expr.Env(&mockEnv{}))
-		require.NoError(t, err, "compile error")
+		require.NoError(t, err, fmt.Sprintf("compile error: %s\n", err))
 
 		got, err := expr.Run(program, env)
-		require.NoError(t, err, "execution error")
+		require.NoError(t, err, fmt.Sprintf("execution error: %s\n", err))
 
 		assert.Equal(t, tt.want, got, tt.code)
 	}

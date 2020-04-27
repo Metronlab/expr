@@ -49,5 +49,6 @@ const (
 	OpLoad
 	OpInc
 	OpBegin
+	OpBitwiseAnd
 	OpEnd // This opcode must be at the end of this list.
 )

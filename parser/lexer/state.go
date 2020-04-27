@@ -2,12 +2,18 @@ package lexer
 
 import (
 	"strings"
+	"unicode/utf8"
 )
 
 type stateFn func(*lexer) stateFn
 
 func root(l *lexer) stateFn {
-	switch r := l.next(); {
+	r := l.next()
+	var rNext rune
+	if l.end < len(l.input) {
+		rNext, _ = utf8.DecodeRuneInString(l.input[l.end:])
+	}
+	switch {
 	case r == eof:
 		l.emitEOF()
 		return nil
@@ -28,6 +34,8 @@ func root(l *lexer) stateFn {
 		l.emit(Bracket)
 	case strings.ContainsRune(")]}", r):
 		l.emit(Bracket)
+	case strings.ContainsRune("&", r) && !strings.ContainsRune("&", rNext):
+		l.emit(Operator)
 	case strings.ContainsRune("#,?:%+-/", r): // single rune operator
 		l.emit(Operator)
 	case strings.ContainsRune("&|!=*<>", r): // possible double rune operator

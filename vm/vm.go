@@ -369,6 +369,11 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 			scope := make(Scope)
 			vm.scopes = append(vm.scopes, scope)
 
+		case OpBitwiseAnd:
+			b := vm.pop()
+			a := vm.pop()
+			vm.push(bitwiseAnd(a, b))
+
 		case OpEnd:
 			vm.scopes = vm.scopes[:len(vm.scopes)-1]
 

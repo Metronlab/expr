@@ -58,6 +58,7 @@ var binaryOperators = map[string]operator{
 	"*":          {60, left},
 	"/":          {60, left},
 	"%":          {60, left},
+	"&":          {60, left},
 	"**":         {70, right},
 }
 

@@ -382,6 +382,11 @@ func (c *compiler) BinaryNode(node *ast.BinaryNode) {
 		c.compile(node.Right)
 		c.emit(OpRange)
 
+	case "&":
+		c.compile(node.Left)
+		c.compile(node.Right)
+		c.emit(OpBitwiseAnd)
+
 	default:
 		panic(fmt.Sprintf("unknown operator (%v)", node.Operator))
 
