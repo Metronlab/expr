@@ -49,6 +49,11 @@ const (
 	OpLoad
 	OpInc
 	OpBegin
+	OpBitwiseNot
 	OpBitwiseAnd
+	OpBitwiseOr
+	OpBitwiseXor
+	OpBitwiseLeftShift
+	OpBitwiseRightShift
 	OpEnd // This opcode must be at the end of this list.
 )

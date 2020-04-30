@@ -14,7 +14,10 @@ func Lex(source *file.Source) ([]Token, error) {
 		tokens: make([]Token, 0),
 	}
 
-	l.loc = file.Location{1, 0}
+	l.loc = file.Location{
+		Line: 1,
+		Column: 0,
+	}
 	l.prev = l.loc
 	l.startLoc = l.loc
 
@@ -31,7 +34,6 @@ func Lex(source *file.Source) ([]Token, error) {
 
 type lexer struct {
 	input      string
-	state      stateFn
 	tokens     []Token
 	start, end int           // current position in input
 	width      int           // last rune with

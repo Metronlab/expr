@@ -214,6 +214,35 @@ func negate(i interface{}) interface{} {
 	}
 }
 
+func complement(i interface{}) interface{} {
+	switch v := i.(type) {
+	case int:
+		return ^v
+	case int8:
+		return ^v
+	case int16:
+		return ^v
+	case int32:
+		return ^v
+	case int64:
+		return ^v
+
+	case uint:
+		return ^v
+	case uint8:
+		return ^v
+	case uint16:
+		return ^v
+	case uint32:
+		return ^v
+	case uint64:
+		return ^v
+
+	default:
+		panic(fmt.Sprintf("invalid operation: ~ %T", v))
+	}
+}
+
 func exponent(a, b interface{}) float64 {
 	return math.Pow(toFloat64(a), toFloat64(b))
 }

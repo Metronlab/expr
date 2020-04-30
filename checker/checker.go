@@ -167,6 +167,11 @@ func (v *visitor) UnaryNode(node *ast.UnaryNode) reflect.Type {
 			return t
 		}
 
+	case "~":
+		if isInteger(t) {
+			return t
+		}
+
 	default:
 		return v.error(node, "unknown operator (%v)", node.Operator)
 	}
@@ -254,6 +259,22 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 	case "&":
 		if isInteger(l) && isInteger(r) {
 			return integerType
+		}
+	case "|":
+		if isInteger(l) && isInteger(r) {
+			return integerType
+		}
+	case "^":
+		if isInteger(l) && isInteger(r) {
+			return integerType
+		}
+	case ">>":
+		if isInteger(l) && isInteger(r) {
+			return combined(l, r)
+		}
+	case "<<":
+		if isInteger(l) && isInteger(r) {
+			return combined(l, r)
 		}
 	default:
 		return v.error(node, "unknown operator (%v)", node.Operator)
@@ -570,7 +591,7 @@ func (v *visitor) ConditionalNode(node *ast.ConditionalNode) reflect.Type {
 	if t1 == nil && t2 == nil {
 		return nilType
 	}
-	if t1.AssignableTo(t2) {
+	if t1 != nil && t1.AssignableTo(t2) {
 		return t1
 	}
 	return interfaceType

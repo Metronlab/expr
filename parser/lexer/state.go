@@ -34,9 +34,21 @@ func root(l *lexer) stateFn {
 		l.emit(Bracket)
 	case strings.ContainsRune(")]}", r):
 		l.emit(Bracket)
+	// Bitwise AND
 	case strings.ContainsRune("&", r) && !strings.ContainsRune("&", rNext):
 		l.emit(Operator)
-	case strings.ContainsRune("#,?:%+-/", r): // single rune operator
+	// Bitwise OR
+	case strings.ContainsRune("|", r) && !strings.ContainsRune("|", rNext):
+		l.emit(Operator)
+	// Bitwise Left Shift
+	case strings.ContainsRune("<", r) && strings.ContainsRune("<", rNext):
+		l.accept("<")
+		l.emit(Operator)
+	// Bitwise Right Shift
+	case strings.ContainsRune(">", r) && strings.ContainsRune(">", rNext):
+		l.accept(">")
+		l.emit(Operator)
+	case strings.ContainsRune("#,?:%+-/^~", r): // single rune operator
 		l.emit(Operator)
 	case strings.ContainsRune("&|!=*<>", r): // possible double rune operator
 		l.accept("&|=*")

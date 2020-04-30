@@ -93,6 +93,36 @@ func main() {
 			op:      "%",
 			noFloat: true,
 		},
+		{
+			name:    "bitwiseNot",
+			op:      "~",
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseAnd",
+			op:      "&",
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseOr",
+			op:      "|",
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseXor",
+			op:      "^",
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseLeftShift",
+			op:      "<<",
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseRightShift",
+			op:      ">>",
+			noFloat: true,
+		},
 	}
 
 	for _, helper := range helpers {
@@ -112,13 +142,25 @@ func main() {
 				}
 				echo(`case %v:`, b)
 				if i == j {
-					echo(`return x %v y`, op)
+					if op == "~" {
+						echo(`return x ^ y`)
+					} else {
+						echo(`return x %v y`, op)
+					}
 				}
 				if i < j {
-					echo(`return %v(x) %v y`, b, op)
+					if op == "~" {
+						echo(`return %v(x) ^ y`, b)
+					} else {
+						echo(`return %v(x) %v y`, b, op)
+					}
 				}
 				if i > j {
-					echo(`return x %v %v(y)`, op, a)
+					if op == "~" {
+						echo(`return x ^ %v(y)`, a)
+					} else {
+						echo(`return x %v %v(y)`, op, a)
+					}
 				}
 			}
 			echo(`}`)
