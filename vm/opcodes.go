@@ -53,7 +53,7 @@ const (
 	OpBitwiseAnd
 	OpBitwiseOr
 	OpBitwiseXor
-	OpBitwiseLeftShift
-	OpBitwiseRightShift
+	OpBitwiseLShift
+	OpBitwiseRShift
 	OpEnd // This opcode must be at the end of this list.
 )

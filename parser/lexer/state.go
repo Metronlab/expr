@@ -1,13 +1,20 @@
 package lexer
 
 import (
+	"github.com/metronlab/expr/conf"
 	"strings"
+	"unicode/utf8"
 )
 
 type stateFn func(*lexer) stateFn
 
 func root(l *lexer) stateFn {
-	switch r := l.next(); {
+	r := l.next()
+	var rNext rune
+	if l.end < len(l.input) {
+		rNext, _ = utf8.DecodeRuneInString(l.input[l.end:])
+	}
+	switch {
 	case r == eof:
 		l.emitEOF()
 		return nil
@@ -28,10 +35,24 @@ func root(l *lexer) stateFn {
 		l.emit(Bracket)
 	case strings.ContainsRune(")]}", r):
 		l.emit(Bracket)
-	case strings.ContainsRune("#,?:%+-/^~", r): // single rune operator
+	case strings.ContainsRune(conf.OpBitwiseNot, r):
+		l.emit(Operator)
+	case strings.ContainsRune(conf.OpBitwiseAnd, r) && !strings.ContainsRune(conf.OpBitwiseAnd, rNext):
+		l.emit(Operator)
+	case strings.ContainsRune(conf.OpBitwiseOr, r) && !strings.ContainsRune(conf.OpBitwiseOr, rNext):
+		l.emit(Operator)
+	case strings.ContainsRune(conf.OpBitwiseXor, r):
+		l.emit(Operator)
+	case strings.ContainsRune(conf.OpBitwiseLShift, r) && strings.ContainsRune(conf.OpBitwiseLShift, rNext):
+		l.accept(conf.OpBitwiseLShift)
+		l.emit(Operator)
+	case strings.ContainsRune(conf.OpBitwiseRShift, r) && strings.ContainsRune(conf.OpBitwiseRShift, rNext):
+		l.accept(conf.OpBitwiseRShift)
+		l.emit(Operator)
+	case strings.ContainsRune("#,?:%+-/", r): // single rune operator
 		l.emit(Operator)
 	case strings.ContainsRune("&|!=*<>", r): // possible double rune operator
-		l.accept("&|=*<>")
+		l.accept("&|=*")
 		l.emit(Operator)
 	case r == '.':
 		l.backup()

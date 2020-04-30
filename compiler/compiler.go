@@ -259,7 +259,7 @@ func (c *compiler) UnaryNode(node *ast.UnaryNode) {
 	case "-":
 		c.emit(OpNegate)
 
-	case "~":
+	case conf.OpBitwiseNot:
 		c.emit(OpBitwiseNot)
 
 	default:
@@ -385,30 +385,30 @@ func (c *compiler) BinaryNode(node *ast.BinaryNode) {
 		c.compile(node.Right)
 		c.emit(OpRange)
 
-	case "&":
+	case conf.OpBitwiseAnd:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseAnd)
 
-	case "|":
+	case conf.OpBitwiseOr:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseOr)
 
-	case "^":
+	case conf.OpBitwiseXor:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseXor)
 
-	case ">>":
+	case conf.OpBitwiseRShift:
 		c.compile(node.Left)
 		c.compile(node.Right)
-		c.emit(OpBitwiseRightShift)
+		c.emit(OpBitwiseRShift)
 
-	case "<<":
+	case conf.OpBitwiseLShift:
 		c.compile(node.Left)
 		c.compile(node.Right)
-		c.emit(OpBitwiseLeftShift)
+		c.emit(OpBitwiseLShift)
 
 	default:
 		panic(fmt.Sprintf("unknown operator (%v)", node.Operator))

@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/conf"
 	"regexp"
 	"strconv"
 	"strings"
@@ -37,35 +38,35 @@ var unaryOperators = map[string]operator{
 }
 
 var binaryOperators = map[string]operator{
-	"or":         {10, left},
-	"||":         {10, left},
-	"and":        {15, left},
-	"&&":         {15, left},
-	"==":         {20, left},
-	"!=":         {20, left},
-	"<":          {20, left},
-	">":          {20, left},
-	">=":         {20, left},
-	"<=":         {20, left},
-	"not in":     {20, left},
-	"in":         {20, left},
-	"matches":    {20, left},
-	"contains":   {20, left},
-	"startsWith": {20, left},
-	"endsWith":   {20, left},
-	"..":         {25, left},
-	"+":          {30, left},
-	"-":          {30, left},
-	"*":          {60, left},
-	"/":          {60, left},
-	"%":          {60, left},
-	"~":          {60, left},
-	"&":          {60, left},
-	"|":          {60, left},
-	"^":          {60, left},
-	">>":          {60, left},
-	"<<":          {60, left},
-	"**":         {70, right},
+	"or":                 {10, left},
+	"||":                 {10, left},
+	"and":                {15, left},
+	"&&":                 {15, left},
+	"==":                 {20, left},
+	"!=":                 {20, left},
+	"<":                  {20, left},
+	">":                  {20, left},
+	">=":                 {20, left},
+	"<=":                 {20, left},
+	"not in":             {20, left},
+	"in":                 {20, left},
+	"matches":            {20, left},
+	"contains":           {20, left},
+	"startsWith":         {20, left},
+	"endsWith":           {20, left},
+	"..":                 {25, left},
+	"+":                  {30, left},
+	"-":                  {30, left},
+	"*":                  {60, left},
+	"/":                  {60, left},
+	"%":                  {60, left},
+	conf.OpBitwiseNot:    {60, left},
+	conf.OpBitwiseAnd:    {60, left},
+	conf.OpBitwiseOr:     {60, left},
+	conf.OpBitwiseXor:    {60, left},
+	conf.OpBitwiseRShift: {60, left},
+	conf.OpBitwiseLShift: {60, left},
+	"**":                 {70, right},
 }
 
 var builtins = map[string]builtin{

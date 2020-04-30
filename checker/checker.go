@@ -167,7 +167,7 @@ func (v *visitor) UnaryNode(node *ast.UnaryNode) reflect.Type {
 			return t
 		}
 
-	case "~":
+	case conf.OpBitwiseNot:
 		if isInteger(t) {
 			return t
 		}
@@ -256,26 +256,32 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 		if isInteger(l) && isInteger(r) {
 			return reflect.SliceOf(integerType)
 		}
-	case "&":
+
+	case conf.OpBitwiseAnd:
 		if isInteger(l) && isInteger(r) {
 			return integerType
 		}
-	case "|":
+
+	case conf.OpBitwiseOr:
 		if isInteger(l) && isInteger(r) {
 			return integerType
 		}
-	case "^":
+
+	case conf.OpBitwiseXor:
 		if isInteger(l) && isInteger(r) {
 			return integerType
 		}
-	case ">>":
+
+	case conf.OpBitwiseLShift:
 		if isInteger(l) && isInteger(r) {
 			return combined(l, r)
 		}
-	case "<<":
+
+	case conf.OpBitwiseRShift:
 		if isInteger(l) && isInteger(r) {
 			return combined(l, r)
 		}
+
 	default:
 		return v.error(node, "unknown operator (%v)", node.Operator)
 

@@ -39,8 +39,8 @@ type VM struct {
 func Debug() *VM {
 	vm := &VM{
 		debug: true,
-		step:  make(chan struct{}, 0),
-		curr:  make(chan int, 0),
+		step:  make(chan struct{}),
+		curr:  make(chan int),
 	}
 	return vm
 }
@@ -388,12 +388,12 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 			a := vm.pop()
 			vm.push(bitwiseXor(a, b))
 
-		case OpBitwiseLeftShift:
+		case OpBitwiseLShift:
 			b := vm.pop()
 			a := vm.pop()
 			vm.push(bitwiseLeftShift(a, b))
 
-		case OpBitwiseRightShift:
+		case OpBitwiseRShift:
 			b := vm.pop()
 			a := vm.pop()
 			vm.push(bitwiseRightShift(a, b))
