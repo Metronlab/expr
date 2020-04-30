@@ -1,4 +1,4 @@
-Project forked from github.com/antonmedv/expr for an experiment.
+This project was forked from github.com/antonmedv/expr to add support for bitwise operators.
 
 # Expr 
 [![Build Status](https://travis-ci.org/antonmedv/expr.svg?branch=master)](https://travis-ci.org/antonmedv/expr) 
