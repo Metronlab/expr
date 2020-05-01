@@ -4,6 +4,7 @@ package vm
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"math"
 	"reflect"
 )
@@ -239,7 +240,7 @@ func complement(i interface{}) interface{} {
 		return ^v
 
 	default:
-		panic(fmt.Sprintf("invalid operation: ~ %T", v))
+		panic(fmt.Sprintf("invalid operation: %s %T", constants.OpBitwiseNot, v))
 	}
 }
 

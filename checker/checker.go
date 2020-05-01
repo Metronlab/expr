@@ -2,6 +2,7 @@ package checker
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"reflect"
 
 	"github.com/metronlab/expr/ast"
@@ -167,7 +168,7 @@ func (v *visitor) UnaryNode(node *ast.UnaryNode) reflect.Type {
 			return t
 		}
 
-	case conf.OpBitwiseNot:
+	case constants.OpBitwiseNot:
 		if isInteger(t) {
 			return t
 		}
@@ -257,27 +258,27 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 			return reflect.SliceOf(integerType)
 		}
 
-	case conf.OpBitwiseAnd:
+	case constants.OpBitwiseAnd:
 		if isInteger(l) && isInteger(r) {
 			return integerType
 		}
 
-	case conf.OpBitwiseOr:
+	case constants.OpBitwiseOr:
 		if isInteger(l) && isInteger(r) {
 			return integerType
 		}
 
-	case conf.OpBitwiseXor:
+	case constants.OpBitwiseXor:
 		if isInteger(l) && isInteger(r) {
 			return integerType
 		}
 
-	case conf.OpBitwiseLShift:
+	case constants.OpBitwiseLShift:
 		if isInteger(l) && isInteger(r) {
 			return combined(l, r)
 		}
 
-	case conf.OpBitwiseRShift:
+	case constants.OpBitwiseRShift:
 		if isInteger(l) && isInteger(r) {
 			return combined(l, r)
 		}

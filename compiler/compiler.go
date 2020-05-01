@@ -3,6 +3,7 @@ package compiler
 import (
 	"encoding/binary"
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"math"
 	"reflect"
 
@@ -259,7 +260,7 @@ func (c *compiler) UnaryNode(node *ast.UnaryNode) {
 	case "-":
 		c.emit(OpNegate)
 
-	case conf.OpBitwiseNot:
+	case constants.OpBitwiseNot:
 		c.emit(OpBitwiseNot)
 
 	default:
@@ -385,27 +386,27 @@ func (c *compiler) BinaryNode(node *ast.BinaryNode) {
 		c.compile(node.Right)
 		c.emit(OpRange)
 
-	case conf.OpBitwiseAnd:
+	case constants.OpBitwiseAnd:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseAnd)
 
-	case conf.OpBitwiseOr:
+	case constants.OpBitwiseOr:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseOr)
 
-	case conf.OpBitwiseXor:
+	case constants.OpBitwiseXor:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseXor)
 
-	case conf.OpBitwiseRShift:
+	case constants.OpBitwiseRShift:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseRShift)
 
-	case conf.OpBitwiseLShift:
+	case constants.OpBitwiseLShift:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpBitwiseLShift)

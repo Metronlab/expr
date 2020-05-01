@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"github.com/metronlab/expr/conf"
+	"github.com/metronlab/expr/constants"
 	"strings"
 	"unicode/utf8"
 )
@@ -35,19 +35,19 @@ func root(l *lexer) stateFn {
 		l.emit(Bracket)
 	case strings.ContainsRune(")]}", r):
 		l.emit(Bracket)
-	case strings.ContainsRune(conf.OpBitwiseNot, r):
+	case strings.ContainsRune(constants.OpBitwiseNot, r):
 		l.emit(Operator)
-	case strings.ContainsRune(conf.OpBitwiseAnd, r) && !strings.ContainsRune(conf.OpBitwiseAnd, rNext):
+	case strings.ContainsRune(constants.OpBitwiseAnd, r) && !strings.ContainsRune(constants.OpBitwiseAnd, rNext):
 		l.emit(Operator)
-	case strings.ContainsRune(conf.OpBitwiseOr, r) && !strings.ContainsRune(conf.OpBitwiseOr, rNext):
+	case strings.ContainsRune(constants.OpBitwiseOr, r) && !strings.ContainsRune(constants.OpBitwiseOr, rNext):
 		l.emit(Operator)
-	case strings.ContainsRune(conf.OpBitwiseXor, r):
+	case strings.ContainsRune(constants.OpBitwiseXor, r):
 		l.emit(Operator)
-	case strings.ContainsRune(conf.OpBitwiseLShift, r) && strings.ContainsRune(conf.OpBitwiseLShift, rNext):
-		l.accept(conf.OpBitwiseLShift)
+	case strings.ContainsRune(constants.OpBitwiseLShift, r) && strings.ContainsRune(constants.OpBitwiseLShift, rNext):
+		l.accept(constants.OpBitwiseLShift)
 		l.emit(Operator)
-	case strings.ContainsRune(conf.OpBitwiseRShift, r) && strings.ContainsRune(conf.OpBitwiseRShift, rNext):
-		l.accept(conf.OpBitwiseRShift)
+	case strings.ContainsRune(constants.OpBitwiseRShift, r) && strings.ContainsRune(constants.OpBitwiseRShift, rNext):
+		l.accept(constants.OpBitwiseRShift)
 		l.emit(Operator)
 	case strings.ContainsRune("#,?:%+-/", r): // single rune operator
 		l.emit(Operator)

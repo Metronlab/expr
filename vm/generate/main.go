@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"go/format"
 	"io/ioutil"
 	"strings"
@@ -94,33 +95,28 @@ func main() {
 			noFloat: true,
 		},
 		{
-			name:    "bitwiseNot",
-			op:      "~",
-			noFloat: true,
-		},
-		{
 			name:    "bitwiseAnd",
-			op:      "&",
+			op:      constants.OpBitwiseAnd,
 			noFloat: true,
 		},
 		{
 			name:    "bitwiseOr",
-			op:      "|",
+			op:      constants.OpBitwiseOr,
 			noFloat: true,
 		},
 		{
 			name:    "bitwiseXor",
-			op:      "^",
+			op:      constants.OpBitwiseXor,
 			noFloat: true,
 		},
 		{
 			name:    "bitwiseLeftShift",
-			op:      "<<",
+			op:      constants.OpBitwiseLShift,
 			noFloat: true,
 		},
 		{
 			name:    "bitwiseRightShift",
-			op:      ">>",
+			op:      constants.OpBitwiseRShift,
 			noFloat: true,
 		},
 	}
@@ -142,22 +138,46 @@ func main() {
 				}
 				echo(`case %v:`, b)
 				if i == j {
-					if op == "~" {
+					if op == constants.OpBitwiseAnd {
+						echo(`return x & y`)
+					} else if op == constants.OpBitwiseOr {
+						echo(`return x | y`)
+					} else if op == constants.OpBitwiseXor {
 						echo(`return x ^ y`)
+					} else if op == constants.OpBitwiseLShift {
+						echo(`return x << y`)
+					} else if op == constants.OpBitwiseRShift {
+						echo(`return x >> y`)
 					} else {
 						echo(`return x %v y`, op)
 					}
 				}
 				if i < j {
-					if op == "~" {
+					if op == constants.OpBitwiseAnd {
+						echo(`return %v(x) & y`, b)
+					} else if op == constants.OpBitwiseOr {
+						echo(`return %v(x) | y`, b)
+					} else if op == constants.OpBitwiseXor {
 						echo(`return %v(x) ^ y`, b)
+					} else if op == constants.OpBitwiseLShift {
+						echo(`return %v(x) << y`, b)
+					} else if op == constants.OpBitwiseRShift {
+						echo(`return %v(x) >> y`, b)
 					} else {
 						echo(`return %v(x) %v y`, b, op)
 					}
 				}
 				if i > j {
-					if op == "~" {
+					if op == constants.OpBitwiseAnd {
+						echo(`return x & %v(y)`, a)
+					} else if op == constants.OpBitwiseOr {
+						echo(`return x | %v(y)`, a)
+					} else if op == constants.OpBitwiseXor {
 						echo(`return x ^ %v(y)`, a)
+					} else if op == constants.OpBitwiseLShift {
+						echo(`return x << %v(y)`, a)
+					} else if op == constants.OpBitwiseRShift {
+						echo(`return x >> %v(y)`, a)
 					} else {
 						echo(`return x %v %v(y)`, op, a)
 					}

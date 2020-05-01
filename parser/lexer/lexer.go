@@ -14,10 +14,7 @@ func Lex(source *file.Source) ([]Token, error) {
 		tokens: make([]Token, 0),
 	}
 
-	l.loc = file.Location{
-		Line: 1,
-		Column: 0,
-	}
+	l.loc = file.Location{Line: 1, Column: 0}
 	l.prev = l.loc
 	l.startLoc = l.loc
 
