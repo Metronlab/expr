@@ -598,7 +598,7 @@ func (v *visitor) ConditionalNode(node *ast.ConditionalNode) reflect.Type {
 	if t1 == nil && t2 == nil {
 		return nilType
 	}
-	if t1 != nil && t1.AssignableTo(t2) {
+	if t1.AssignableTo(t2) {
 		return t1
 	}
 	return interfaceType

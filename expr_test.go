@@ -1000,10 +1000,10 @@ func TestExpr(t *testing.T) {
 
 	for _, tt := range tests {
 		program, err := expr.Compile(tt.code, expr.Env(&mockEnv{}))
-		require.NoError(t, err, fmt.Sprintf("compile error: %s\n", err))
+		require.NoError(t, err, "compile error")
 
 		got, err := expr.Run(program, env)
-		require.NoError(t, err, fmt.Sprintf("execution error: %s\n", err))
+		require.NoError(t, err, "execution error")
 
 		assert.Equal(t, tt.want, got, tt.code)
 	}
