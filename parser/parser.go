@@ -30,43 +30,43 @@ type builtin struct {
 }
 
 var unaryOperators = map[string]operator{
-	"not":                  {50, left},
-	"!":                    {50, left},
-	"-":                    {500, left},
-	"+":                    {500, left},
+	constants.OpNotVerbose: {50, left},
+	constants.OpNotSymbol:  {50, left},
+	constants.OpNegative:   {500, left},
+	constants.OpPositive:   {500, left},
 	constants.OpBitwiseNot: {500, left},
 }
 
 var binaryOperators = map[string]operator{
-	"or":                      {10, left},
-	"||":                      {10, left},
-	"and":                     {15, left},
-	"&&":                      {15, left},
-	"==":                      {20, left},
-	"!=":                      {20, left},
-	"<":                       {20, left},
-	">":                       {20, left},
-	">=":                      {20, left},
-	"<=":                      {20, left},
-	"not in":                  {20, left},
-	"in":                      {20, left},
-	"matches":                 {20, left},
-	"contains":                {20, left},
-	"startsWith":              {20, left},
-	"endsWith":                {20, left},
-	"..":                      {25, left},
-	"+":                       {30, left},
-	"-":                       {30, left},
-	"*":                       {60, left},
-	"/":                       {60, left},
-	"%":                       {60, left},
-	constants.OpBitwiseNot:    {60, left},
-	constants.OpBitwiseAnd:    {60, left},
-	constants.OpBitwiseOr:     {60, left},
-	constants.OpBitwiseXor:    {60, left},
-	constants.OpBitwiseRShift: {60, left},
-	constants.OpBitwiseLShift: {60, left},
-	"**":                      {70, right},
+	constants.OpOrVerbose:      {10, left},
+	constants.OpOrSymbol:       {10, left},
+	constants.OpAndVerbose:     {15, left},
+	constants.OpAndSymbol:      {15, left},
+	constants.OpEqual:          {20, left},
+	constants.OpDifferent:      {20, left},
+	constants.OpLess:           {20, left},
+	constants.OpGreater:        {20, left},
+	constants.OpGreaterOrEqual: {20, left},
+	constants.OpLessOrEqual:    {20, left},
+	constants.OpNotIn:          {20, left},
+	constants.OpIn:             {20, left},
+	constants.OpMatches:        {20, left},
+	constants.OpContains:       {20, left},
+	constants.OpStartsWith:     {20, left},
+	constants.OpEndsWith:       {20, left},
+	constants.OpRange:          {25, left},
+	constants.OpAdd:            {30, left},
+	constants.OpSubtract:       {30, left},
+	constants.OpMultiply:       {60, left},
+	constants.OpDivide:         {60, left},
+	constants.OpModulo:         {60, left},
+	constants.OpBitwiseNot:     {60, left},
+	constants.OpBitwiseAnd:     {60, left},
+	constants.OpBitwiseOr:      {60, left},
+	constants.OpBitwiseXor:     {60, left},
+	constants.OpBitwiseRShift:  {60, left},
+	constants.OpBitwiseLShift:  {60, left},
+	constants.OpExponent:       {70, right},
 }
 
 var builtins = map[string]builtin{
@@ -166,7 +166,7 @@ func (p *parser) parseExpression(precedence int) Node {
 					nodeRight = p.parseExpression(op.precedence)
 				}
 
-				if token.Is(Operator, "matches") {
+				if token.Is(Operator, constants.OpMatches) {
 					var r *regexp.Regexp
 					var err error
 
@@ -476,7 +476,7 @@ func (p *parser) parsePostfixExpression(node Node) Node {
 			p.next()
 
 			if token.Kind != Identifier &&
-				// Operators like "not" and "matches" are valid methods or property names.
+				// Operators like constants.OpNotVerbose and constants.OpMatches are valid methods or property names.
 				(token.Kind != Operator || !isValidIdentifier(token.Value)) {
 				p.error("expected name")
 			}

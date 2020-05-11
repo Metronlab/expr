@@ -49,49 +49,49 @@ func main() {
 	}{
 		{
 			name:   "equal",
-			op:     "==",
+			op:     constants.OpEqual,
 			string: true,
 		},
 		{
 			name:   "less",
-			op:     "<",
+			op:     constants.OpLess,
 			string: true,
 		},
 		{
 			name:   "more",
-			op:     ">",
+			op:     constants.OpGreater,
 			string: true,
 		},
 		{
 			name:   "lessOrEqual",
-			op:     "<=",
+			op:     constants.OpLessOrEqual,
 			string: true,
 		},
 		{
 			name:   "moreOrEqual",
-			op:     ">=",
+			op:     constants.OpGreaterOrEqual,
 			string: true,
 		},
 		{
 			name:   "add",
-			op:     "+",
+			op:     constants.OpAdd,
 			string: true,
 		},
 		{
 			name: "subtract",
-			op:   "-",
+			op:   constants.OpSubtract,
 		},
 		{
 			name: "multiply",
-			op:   "*",
+			op:   constants.OpMultiply,
 		},
 		{
 			name: "divide",
-			op:   "/",
+			op:   constants.OpDivide,
 		},
 		{
 			name:    "modulo",
-			op:      "%",
+			op:      constants.OpModulo,
 			noFloat: true,
 		},
 		{

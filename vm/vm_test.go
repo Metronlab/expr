@@ -2,6 +2,7 @@ package vm_test
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"reflect"
 	"testing"
 
@@ -56,13 +57,24 @@ func TestRun_helpers(t *testing.T) {
 		float32(1),
 		float64(1),
 	}
-	ops := []string{"+", "-", "*", "/", "%", "==", ">=", "<=", "<", ">"}
+	ops := []string{
+		constants.OpAdd,
+		constants.OpSubtract,
+		constants.OpMultiply,
+		constants.OpDivide,
+		constants.OpModulo,
+		constants.OpEqual,
+		constants.OpGreaterOrEqual,
+		constants.OpLessOrEqual,
+		constants.OpLess,
+		constants.OpGreater,
+	}
 
 	for _, a := range values {
 		for _, b := range values {
 			for _, op := range ops {
 
-				if op == "%" {
+				if op == constants.OpModulo {
 					switch a.(type) {
 					case float32, float64:
 						continue

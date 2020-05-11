@@ -165,7 +165,7 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 			a := vm.pop()
 			vm.push(less(a, b))
 
-		case OpMore:
+		case OpGreater:
 			b := vm.pop()
 			a := vm.pop()
 			vm.push(more(a, b))
@@ -175,7 +175,7 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 			a := vm.pop()
 			vm.push(lessOrEqual(a, b))
 
-		case OpMoreOrEqual:
+		case OpGreaterOrEqual:
 			b := vm.pop()
 			a := vm.pop()
 			vm.push(moreOrEqual(a, b))

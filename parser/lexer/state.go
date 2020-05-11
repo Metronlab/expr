@@ -3,18 +3,12 @@ package lexer
 import (
 	"github.com/metronlab/expr/constants"
 	"strings"
-	"unicode/utf8"
 )
 
 type stateFn func(*lexer) stateFn
 
 func root(l *lexer) stateFn {
-	r := l.next()
-	var rNext rune
-	if l.end < len(l.input) {
-		rNext, _ = utf8.DecodeRuneInString(l.input[l.end:])
-	}
-	switch {
+	switch r := l.next(); {
 	case r == eof:
 		l.emitEOF()
 		return nil
@@ -35,24 +29,10 @@ func root(l *lexer) stateFn {
 		l.emit(Bracket)
 	case strings.ContainsRune(")]}", r):
 		l.emit(Bracket)
-	case strings.ContainsRune(constants.OpBitwiseNot, r):
+	case strings.ContainsRune(constants.SingleOperators, r): // single rune operator
 		l.emit(Operator)
-	case strings.ContainsRune(constants.OpBitwiseAnd, r) && !strings.ContainsRune(constants.OpBitwiseAnd, rNext):
-		l.emit(Operator)
-	case strings.ContainsRune(constants.OpBitwiseOr, r) && !strings.ContainsRune(constants.OpBitwiseOr, rNext):
-		l.emit(Operator)
-	case strings.ContainsRune(constants.OpBitwiseXor, r):
-		l.emit(Operator)
-	case strings.ContainsRune(constants.OpBitwiseLShift, r) && strings.ContainsRune(constants.OpBitwiseLShift, rNext):
-		l.accept(constants.OpBitwiseLShift)
-		l.emit(Operator)
-	case strings.ContainsRune(constants.OpBitwiseRShift, r) && strings.ContainsRune(constants.OpBitwiseRShift, rNext):
-		l.accept(constants.OpBitwiseRShift)
-		l.emit(Operator)
-	case strings.ContainsRune("#,?:%+-/", r): // single rune operator
-		l.emit(Operator)
-	case strings.ContainsRune("&|!=*<>", r): // possible double rune operator
-		l.accept("&|=*")
+	case strings.ContainsRune(constants.DoubleFirstOperators, r): // possible double rune operator
+		l.accept(constants.DoubleSecondOperators)
 		l.emit(Operator)
 	case r == '.':
 		l.backup()
@@ -132,9 +112,10 @@ loop:
 		default:
 			l.backup()
 			switch l.word() {
-			case "not":
+			case constants.OpNotVerbose:
 				return not
-			case "in", "or", "and", "matches", "contains", "startsWith", "endsWith":
+			case constants.OpIn, constants.OpOrVerbose, constants.OpAndVerbose, constants.OpMatches,
+				constants.OpContains, constants.OpStartsWith, constants.OpEndsWith:
 				l.emit(Operator)
 			default:
 				l.emit(Identifier)

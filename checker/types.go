@@ -1,6 +1,7 @@
 package checker
 
 import (
+	"github.com/metronlab/expr/constants"
 	"reflect"
 
 	"github.com/metronlab/expr/ast"
@@ -318,12 +319,12 @@ func isIntegerOrArithmeticOperation(node ast.Node) bool {
 		return true
 	case *ast.UnaryNode:
 		switch n.Operator {
-		case "+", "-":
+		case constants.OpPositive, constants.OpNegative:
 			return true
 		}
 	case *ast.BinaryNode:
 		switch n.Operator {
-		case "+", "/", "-", "*":
+		case constants.OpAdd, constants.OpDivide, constants.OpSubtract, constants.OpMultiply:
 			return true
 		}
 	}
@@ -336,12 +337,12 @@ func setTypeForIntegers(node ast.Node, t reflect.Type) {
 		n.SetType(t)
 	case *ast.UnaryNode:
 		switch n.Operator {
-		case "+", "-":
+		case constants.OpPositive, constants.OpNegative:
 			setTypeForIntegers(n.Node, t)
 		}
 	case *ast.BinaryNode:
 		switch n.Operator {
-		case "+", "/", "-", "*":
+		case constants.OpAdd, constants.OpDivide, constants.OpSubtract, constants.OpMultiply:
 			setTypeForIntegers(n.Left, t)
 			setTypeForIntegers(n.Right, t)
 		}

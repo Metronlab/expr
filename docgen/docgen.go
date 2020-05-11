@@ -1,6 +1,7 @@
 package docgen
 
 import (
+	"github.com/metronlab/expr/constants"
 	"reflect"
 	"regexp"
 	"strings"
@@ -34,7 +35,7 @@ type Type struct {
 }
 
 var (
-	Operators = []string{"matches", "contains", "startsWith", "endsWith"}
+	Operators = []string{constants.OpMatches, constants.OpContains, constants.OpStartsWith, constants.OpEndsWith}
 	Builtins  = map[Identifier]*Type{
 		"true":   {Kind: "bool"},
 		"false":  {Kind: "bool"},
