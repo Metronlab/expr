@@ -1,6 +1,7 @@
 package lexer
 
 import (
+	"github.com/metronlab/expr/constants"
 	"strings"
 )
 
@@ -28,10 +29,10 @@ func root(l *lexer) stateFn {
 		l.emit(Bracket)
 	case strings.ContainsRune(")]}", r):
 		l.emit(Bracket)
-	case strings.ContainsRune("#,?:%+-/", r): // single rune operator
+	case strings.ContainsRune(constants.SingleOperators, r): // single rune operator
 		l.emit(Operator)
-	case strings.ContainsRune("&|!=*<>", r): // possible double rune operator
-		l.accept("&|=*")
+	case strings.ContainsRune(constants.DoubleFirstOperators, r): // possible double rune operator
+		l.accept(constants.DoubleSecondOperators)
 		l.emit(Operator)
 	case r == '.':
 		l.backup()
@@ -111,9 +112,10 @@ loop:
 		default:
 			l.backup()
 			switch l.word() {
-			case "not":
+			case constants.OpNotVerbose:
 				return not
-			case "in", "or", "and", "matches", "contains", "startsWith", "endsWith":
+			case constants.OpIn, constants.OpOrVerbose, constants.OpAndVerbose, constants.OpMatches,
+				constants.OpContains, constants.OpStartsWith, constants.OpEndsWith:
 				l.emit(Operator)
 			default:
 				l.emit(Identifier)

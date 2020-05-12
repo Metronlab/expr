@@ -2,6 +2,7 @@ package checker
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"reflect"
 
 	"github.com/metronlab/expr/ast"
@@ -157,13 +158,18 @@ func (v *visitor) UnaryNode(node *ast.UnaryNode) reflect.Type {
 
 	switch node.Operator {
 
-	case "!", "not":
+	case constants.OpNotSymbol, constants.OpNotVerbose:
 		if isBool(t) {
 			return boolType
 		}
 
-	case "+", "-":
+	case constants.OpPositive, constants.OpNegative:
 		if isNumber(t) {
+			return t
+		}
+
+	case constants.OpBitwiseNot:
+		if isInteger(t) {
 			return t
 		}
 
@@ -187,7 +193,7 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 	}
 
 	switch node.Operator {
-	case "==", "!=":
+	case constants.OpEqual, constants.OpDifferent:
 		if isNumber(l) && isNumber(r) {
 			return boolType
 		}
@@ -195,12 +201,12 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 			return boolType
 		}
 
-	case "or", "||", "and", "&&":
+	case constants.OpOrVerbose, constants.OpOrSymbol, constants.OpAndVerbose, constants.OpAndSymbol:
 		if isBool(l) && isBool(r) {
 			return boolType
 		}
 
-	case "in", "not in":
+	case constants.OpIn, constants.OpNotIn:
 		if isString(l) && isStruct(r) {
 			return boolType
 		}
@@ -211,7 +217,7 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 			return boolType
 		}
 
-	case "<", ">", ">=", "<=":
+	case constants.OpLess, constants.OpGreater, constants.OpLessOrEqual, constants.OpGreaterOrEqual:
 		if isNumber(l) && isNumber(r) {
 			return boolType
 		}
@@ -219,22 +225,22 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 			return boolType
 		}
 
-	case "/", "-", "*":
+	case constants.OpDivide, constants.OpSubtract, constants.OpMultiply:
 		if isNumber(l) && isNumber(r) {
 			return combined(l, r)
 		}
 
-	case "**":
+	case constants.OpExponent:
 		if isNumber(l) && isNumber(r) {
 			return floatType
 		}
 
-	case "%":
+	case constants.OpModulo:
 		if isInteger(l) && isInteger(r) {
 			return combined(l, r)
 		}
 
-	case "+":
+	case constants.OpAdd:
 		if isNumber(l) && isNumber(r) {
 			return combined(l, r)
 		}
@@ -242,14 +248,39 @@ func (v *visitor) BinaryNode(node *ast.BinaryNode) reflect.Type {
 			return stringType
 		}
 
-	case "contains", "startsWith", "endsWith":
+	case constants.OpContains, constants.OpStartsWith, constants.OpEndsWith:
 		if isString(l) && isString(r) {
 			return boolType
 		}
 
-	case "..":
+	case constants.OpRange:
 		if isInteger(l) && isInteger(r) {
 			return reflect.SliceOf(integerType)
+		}
+
+	case constants.OpBitwiseAnd:
+		if isInteger(l) && isInteger(r) {
+			return integerType
+		}
+
+	case constants.OpBitwiseOr:
+		if isInteger(l) && isInteger(r) {
+			return integerType
+		}
+
+	case constants.OpBitwiseXor:
+		if isInteger(l) && isInteger(r) {
+			return integerType
+		}
+
+	case constants.OpBitwiseLShift:
+		if isInteger(l) && isInteger(r) {
+			return combined(l, r)
+		}
+
+	case constants.OpBitwiseRShift:
+		if isInteger(l) && isInteger(r) {
+			return combined(l, r)
 		}
 
 	default:

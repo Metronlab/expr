@@ -1,6 +1,7 @@
 package optimizer
 
 import (
+	"github.com/metronlab/expr/constants"
 	"math"
 
 	. "github.com/metronlab/expr/ast"
@@ -20,11 +21,11 @@ func (fold *fold) Exit(node *Node) {
 	switch n := (*node).(type) {
 	case *UnaryNode:
 		switch n.Operator {
-		case "-":
+		case constants.OpNegative:
 			if i, ok := n.Node.(*IntegerNode); ok {
 				patch(&IntegerNode{Value: -i.Value})
 			}
-		case "+":
+		case constants.OpPositive:
 			if i, ok := n.Node.(*IntegerNode); ok {
 				patch(&IntegerNode{Value: i.Value})
 			}
@@ -32,7 +33,7 @@ func (fold *fold) Exit(node *Node) {
 
 	case *BinaryNode:
 		switch n.Operator {
-		case "+":
+		case constants.OpAdd:
 			if a, ok := n.Left.(*IntegerNode); ok {
 				if b, ok := n.Right.(*IntegerNode); ok {
 					patch(&IntegerNode{Value: a.Value + b.Value})
@@ -43,31 +44,31 @@ func (fold *fold) Exit(node *Node) {
 					patch(&StringNode{Value: a.Value + b.Value})
 				}
 			}
-		case "-":
+		case constants.OpSubtract:
 			if a, ok := n.Left.(*IntegerNode); ok {
 				if b, ok := n.Right.(*IntegerNode); ok {
 					patch(&IntegerNode{Value: a.Value - b.Value})
 				}
 			}
-		case "*":
+		case constants.OpMultiply:
 			if a, ok := n.Left.(*IntegerNode); ok {
 				if b, ok := n.Right.(*IntegerNode); ok {
 					patch(&IntegerNode{Value: a.Value * b.Value})
 				}
 			}
-		case "/":
+		case constants.OpDivide:
 			if a, ok := n.Left.(*IntegerNode); ok {
 				if b, ok := n.Right.(*IntegerNode); ok {
 					patch(&IntegerNode{Value: a.Value / b.Value})
 				}
 			}
-		case "%":
+		case constants.OpModulo:
 			if a, ok := n.Left.(*IntegerNode); ok {
 				if b, ok := n.Right.(*IntegerNode); ok {
 					patch(&IntegerNode{Value: a.Value % b.Value})
 				}
 			}
-		case "**":
+		case constants.OpExponent:
 			if a, ok := n.Left.(*IntegerNode); ok {
 				if b, ok := n.Right.(*IntegerNode); ok {
 					patch(&FloatNode{Value: math.Pow(float64(a.Value), float64(b.Value))})

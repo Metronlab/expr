@@ -39,8 +39,8 @@ type VM struct {
 func Debug() *VM {
 	vm := &VM{
 		debug: true,
-		step:  make(chan struct{}, 0),
-		curr:  make(chan int, 0),
+		step:  make(chan struct{}),
+		curr:  make(chan int),
 	}
 	return vm
 }
@@ -165,7 +165,7 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 			a := vm.pop()
 			vm.push(less(a, b))
 
-		case OpMore:
+		case OpGreater:
 			b := vm.pop()
 			a := vm.pop()
 			vm.push(more(a, b))
@@ -175,7 +175,7 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 			a := vm.pop()
 			vm.push(lessOrEqual(a, b))
 
-		case OpMoreOrEqual:
+		case OpGreaterOrEqual:
 			b := vm.pop()
 			a := vm.pop()
 			vm.push(moreOrEqual(a, b))
@@ -368,6 +368,35 @@ func (vm *VM) Run(program *Program, env interface{}) (out interface{}, err error
 		case OpBegin:
 			scope := make(Scope)
 			vm.scopes = append(vm.scopes, scope)
+
+		case OpBitwiseNot:
+			v := complement(vm.pop())
+			vm.push(v)
+
+		case OpBitwiseAnd:
+			b := vm.pop()
+			a := vm.pop()
+			vm.push(bitwiseAnd(a, b))
+
+		case OpBitwiseOr:
+			b := vm.pop()
+			a := vm.pop()
+			vm.push(bitwiseOr(a, b))
+
+		case OpBitwiseXor:
+			b := vm.pop()
+			a := vm.pop()
+			vm.push(bitwiseXor(a, b))
+
+		case OpBitwiseLShift:
+			b := vm.pop()
+			a := vm.pop()
+			vm.push(bitwiseLeftShift(a, b))
+
+		case OpBitwiseRShift:
+			b := vm.pop()
+			a := vm.pop()
+			vm.push(bitwiseRightShift(a, b))
 
 		case OpEnd:
 			vm.scopes = vm.scopes[:len(vm.scopes)-1]

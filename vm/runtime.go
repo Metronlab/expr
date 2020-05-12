@@ -4,6 +4,7 @@ package vm
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"math"
 	"reflect"
 )
@@ -211,6 +212,35 @@ func negate(i interface{}) interface{} {
 
 	default:
 		panic(fmt.Sprintf("invalid operation: - %T", v))
+	}
+}
+
+func complement(i interface{}) interface{} {
+	switch v := i.(type) {
+	case int:
+		return ^v
+	case int8:
+		return ^v
+	case int16:
+		return ^v
+	case int32:
+		return ^v
+	case int64:
+		return ^v
+
+	case uint:
+		return ^v
+	case uint8:
+		return ^v
+	case uint16:
+		return ^v
+	case uint32:
+		return ^v
+	case uint64:
+		return ^v
+
+	default:
+		panic(fmt.Sprintf("invalid operation: %s %T", constants.OpBitwiseNot, v))
 	}
 }
 

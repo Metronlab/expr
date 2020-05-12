@@ -3,6 +3,7 @@ package compiler
 import (
 	"encoding/binary"
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"math"
 	"reflect"
 
@@ -249,15 +250,17 @@ func (c *compiler) UnaryNode(node *ast.UnaryNode) {
 	c.compile(node.Node)
 
 	switch node.Operator {
-
-	case "!", "not":
+	case constants.OpNotSymbol, constants.OpNotVerbose:
 		c.emit(OpNot)
 
-	case "+":
+	case constants.OpPositive:
 		// Do nothing
 
-	case "-":
+	case constants.OpNegative:
 		c.emit(OpNegate)
+
+	case constants.OpBitwiseNot:
+		c.emit(OpBitwiseNot)
 
 	default:
 		panic(fmt.Sprintf("unknown operator (%v)", node.Operator))
@@ -269,7 +272,7 @@ func (c *compiler) BinaryNode(node *ast.BinaryNode) {
 	r := kind(node.Right)
 
 	switch node.Operator {
-	case "==":
+	case constants.OpEqual:
 		c.compile(node.Left)
 		c.compile(node.Right)
 
@@ -281,106 +284,131 @@ func (c *compiler) BinaryNode(node *ast.BinaryNode) {
 			c.emit(OpEqual)
 		}
 
-	case "!=":
+	case constants.OpDifferent:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpEqual)
 		c.emit(OpNot)
 
-	case "or", "||":
+	case constants.OpOrVerbose, constants.OpOrSymbol:
 		c.compile(node.Left)
 		end := c.emit(OpJumpIfTrue, c.placeholder()...)
 		c.emit(OpPop)
 		c.compile(node.Right)
 		c.patchJump(end)
 
-	case "and", "&&":
+	case constants.OpAndVerbose, constants.OpAndSymbol:
 		c.compile(node.Left)
 		end := c.emit(OpJumpIfFalse, c.placeholder()...)
 		c.emit(OpPop)
 		c.compile(node.Right)
 		c.patchJump(end)
 
-	case "in":
+	case constants.OpIn:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpIn)
 
-	case "not in":
+	case constants.OpNotIn:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpIn)
 		c.emit(OpNot)
 
-	case "<":
+	case constants.OpLess:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpLess)
 
-	case ">":
+	case constants.OpGreater:
 		c.compile(node.Left)
 		c.compile(node.Right)
-		c.emit(OpMore)
+		c.emit(OpGreater)
 
-	case "<=":
+	case constants.OpLessOrEqual:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpLessOrEqual)
 
-	case ">=":
+	case constants.OpGreaterOrEqual:
 		c.compile(node.Left)
 		c.compile(node.Right)
-		c.emit(OpMoreOrEqual)
+		c.emit(OpGreaterOrEqual)
 
-	case "+":
+	case constants.OpAdd:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpAdd)
 
-	case "-":
+	case constants.OpSubtract:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpSubtract)
 
-	case "*":
+	case constants.OpMultiply:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpMultiply)
 
-	case "/":
+	case constants.OpDivide:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpDivide)
 
-	case "%":
+	case constants.OpModulo:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpModulo)
 
-	case "**":
+	case constants.OpExponent:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpExponent)
 
-	case "contains":
+	case constants.OpContains:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpContains)
 
-	case "startsWith":
+	case constants.OpStartsWith:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpStartsWith)
 
-	case "endsWith":
+	case constants.OpEndsWith:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpEndsWith)
 
-	case "..":
+	case constants.OpRange:
 		c.compile(node.Left)
 		c.compile(node.Right)
 		c.emit(OpRange)
+
+	case constants.OpBitwiseAnd:
+		c.compile(node.Left)
+		c.compile(node.Right)
+		c.emit(OpBitwiseAnd)
+
+	case constants.OpBitwiseOr:
+		c.compile(node.Left)
+		c.compile(node.Right)
+		c.emit(OpBitwiseOr)
+
+	case constants.OpBitwiseXor:
+		c.compile(node.Left)
+		c.compile(node.Right)
+		c.emit(OpBitwiseXor)
+
+	case constants.OpBitwiseRShift:
+		c.compile(node.Left)
+		c.compile(node.Right)
+		c.emit(OpBitwiseRShift)
+
+	case constants.OpBitwiseLShift:
+		c.compile(node.Left)
+		c.compile(node.Right)
+		c.emit(OpBitwiseLShift)
 
 	default:
 		panic(fmt.Sprintf("unknown operator (%v)", node.Operator))

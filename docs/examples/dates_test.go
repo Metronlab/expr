@@ -1,6 +1,7 @@
 package examples
 
 import (
+	"github.com/metronlab/expr/constants"
 	"testing"
 	"time"
 
@@ -18,22 +19,22 @@ func TestExamples_dates(t *testing.T) {
 		expr.Env(Env{}),
 
 		// Operators override for date comprising.
-		expr.Operator("==", "Equal"),
-		expr.Operator("<", "Before"),
-		expr.Operator("<=", "BeforeOrEqual"),
-		expr.Operator(">", "After"),
-		expr.Operator(">=", "AfterOrEqual"),
+		expr.Operator(constants.OpEqual, "Equal"),
+		expr.Operator(constants.OpLess, "Before"),
+		expr.Operator(constants.OpLessOrEqual, "BeforeOrEqual"),
+		expr.Operator(constants.OpGreater, "After"),
+		expr.Operator(constants.OpGreaterOrEqual, "AfterOrEqual"),
 
 		// Time and duration manipulation.
-		expr.Operator("+", "Add"),
-		expr.Operator("-", "Sub"),
+		expr.Operator(constants.OpAdd, "Add"),
+		expr.Operator(constants.OpSubtract, "Sub"),
 
 		// Operators override for duration comprising.
-		expr.Operator("==", "EqualDuration"),
-		expr.Operator("<", "BeforeDuration"),
-		expr.Operator("<=", "BeforeOrEqualDuration"),
-		expr.Operator(">", "AfterDuration"),
-		expr.Operator(">=", "AfterOrEqualDuration"),
+		expr.Operator(constants.OpEqual, "EqualDuration"),
+		expr.Operator(constants.OpLess, "BeforeDuration"),
+		expr.Operator(constants.OpLessOrEqual, "BeforeOrEqualDuration"),
+		expr.Operator(constants.OpGreater, "AfterDuration"),
+		expr.Operator(constants.OpGreaterOrEqual, "AfterOrEqualDuration"),
 	}
 
 	program, err := expr.Compile(code, options...)

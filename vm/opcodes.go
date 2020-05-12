@@ -20,9 +20,9 @@ const (
 	OpJumpBackward
 	OpIn
 	OpLess
-	OpMore
+	OpGreater
 	OpLessOrEqual
-	OpMoreOrEqual
+	OpGreaterOrEqual
 	OpAdd
 	OpSubtract
 	OpMultiply
@@ -49,5 +49,11 @@ const (
 	OpLoad
 	OpInc
 	OpBegin
+	OpBitwiseNot
+	OpBitwiseAnd
+	OpBitwiseOr
+	OpBitwiseXor
+	OpBitwiseLShift
+	OpBitwiseRShift
 	OpEnd // This opcode must be at the end of this list.
 )

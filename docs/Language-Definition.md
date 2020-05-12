@@ -75,6 +75,15 @@ life + universe + everything
 * `and` or `&&`
 * `or` or `||`
 
+### Bitwise Operators
+
+* NOT `~`
+* AND `&`
+* OR `|`
+* XOR `^`
+* LEFT SHIFT `<<`
+* RIGHT SHIFT `>>`
+
 Example:
 
 ```

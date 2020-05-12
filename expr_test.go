@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/metronlab/expr/ast"
+	"github.com/metronlab/expr/constants"
 	"github.com/metronlab/expr/file"
 	"reflect"
 	"strings"
@@ -858,6 +859,142 @@ func TestExpr(t *testing.T) {
 		{
 			`Concat("a", 1, [])`,
 			`a1[]`,
+		},
+		{ // Bitwise NOT
+			constants.OpBitwiseNot + "42",
+			-43,
+		},
+		{
+			constants.OpBitwiseNot + "42 " + constants.OpBitwiseXor + " 2",
+			-41,
+		},
+		{
+			"1+" + constants.OpBitwiseNot + "0",
+			0,
+		},
+		{
+			"27-" + constants.OpBitwiseNot + "(+4-3)+-2",
+			27,
+		},
+		{ // Bitwise AND
+			"3 " + constants.OpBitwiseAnd + " 42",
+			2,
+		},
+		{
+			"3 " + constants.OpBitwiseAnd + " 9 + 5",
+			6,
+		},
+		{
+			"3 " + constants.OpBitwiseAnd + " 42 / 2",
+			1,
+		},
+		{
+			"0 " + constants.OpBitwiseAnd + " 0",
+			0,
+		},
+		{
+			"27 - 2" + constants.OpBitwiseAnd + "(+4-3)+-2",
+			25,
+		},
+		{ // Bitwise OR
+			"3 " + constants.OpBitwiseOr + " 42",
+			43,
+		},
+		{
+			"3 " + constants.OpBitwiseOr + " 9 + 5",
+			16,
+		},
+		{
+			"3 " + constants.OpBitwiseOr + " 42 / 2",
+			21,
+		},
+		{
+			"0 " + constants.OpBitwiseOr + " 0",
+			0,
+		},
+		{
+			"27 - 2" + constants.OpBitwiseOr + "(+4-3)+-2",
+			22,
+		},
+		{ // Bitwise XOR
+			"3 " + constants.OpBitwiseXor + " 42",
+			41,
+		},
+		{
+			"3 " + constants.OpBitwiseXor + " 9 + 5",
+			15,
+		},
+		{
+			"3 " + constants.OpBitwiseXor + " 42 / 2",
+			20,
+		},
+		{
+			"0 " + constants.OpBitwiseXor + " 0",
+			0,
+		},
+		{
+			"27 - 2" + constants.OpBitwiseXor + "(+4-3)+-2",
+			22,
+		},
+		{ // Bitwise AND NOT
+			"3 " + constants.OpBitwiseAnd + constants.OpBitwiseNot + " 42",
+			1,
+		},
+		{
+			"3 " + constants.OpBitwiseAnd + constants.OpBitwiseNot + " 9 + 5",
+			7,
+		},
+		{
+			"3 " + constants.OpBitwiseAnd + constants.OpBitwiseNot + " 42 / 2",
+			0,
+		},
+		{
+			"0 " + constants.OpBitwiseAnd + constants.OpBitwiseNot + " 0",
+			0,
+		},
+		{
+			"27-2" + constants.OpBitwiseAnd + constants.OpBitwiseNot + "(+4-3)+-2",
+			23,
+		},
+		{ // Bitwise Left Shift
+			"3 " + constants.OpBitwiseLShift + " 42",
+			13194139533312,
+		},
+		{
+			"3 " + constants.OpBitwiseLShift + " 9 + 5",
+			1541,
+		},
+		{
+			"3 " + constants.OpBitwiseLShift + " 42 / 2",
+			6597069766656,
+		},
+		{
+			"0 " + constants.OpBitwiseLShift + " 0",
+			0,
+		},
+		{
+			"27-2" + constants.OpBitwiseLShift + "(+4-3)+-2",
+			21,
+		},
+		{ // Bitwise Right Shift
+			"3 " + constants.OpBitwiseRShift + " 42",
+			0,
+		},
+		{
+			"3 " + constants.OpBitwiseRShift + " 9 + 5",
+			5,
+		},
+		{
+			"3 " + constants.OpBitwiseRShift + " 42 / 2",
+			0,
+		},
+		{
+			"0 " + constants.OpBitwiseRShift + " 0",
+			0,
+		},
+		{
+			"27-2" + constants.OpBitwiseRShift + "(+4-3)+-2",
+			24,
 		},
 	}
 

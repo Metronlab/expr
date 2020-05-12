@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/metronlab/expr/constants"
 	"go/format"
 	"io/ioutil"
 	"strings"
@@ -48,49 +49,74 @@ func main() {
 	}{
 		{
 			name:   "equal",
-			op:     "==",
+			op:     constants.OpEqual,
 			string: true,
 		},
 		{
 			name:   "less",
-			op:     "<",
+			op:     constants.OpLess,
 			string: true,
 		},
 		{
 			name:   "more",
-			op:     ">",
+			op:     constants.OpGreater,
 			string: true,
 		},
 		{
 			name:   "lessOrEqual",
-			op:     "<=",
+			op:     constants.OpLessOrEqual,
 			string: true,
 		},
 		{
 			name:   "moreOrEqual",
-			op:     ">=",
+			op:     constants.OpGreaterOrEqual,
 			string: true,
 		},
 		{
 			name:   "add",
-			op:     "+",
+			op:     constants.OpAdd,
 			string: true,
 		},
 		{
 			name: "subtract",
-			op:   "-",
+			op:   constants.OpSubtract,
 		},
 		{
 			name: "multiply",
-			op:   "*",
+			op:   constants.OpMultiply,
 		},
 		{
 			name: "divide",
-			op:   "/",
+			op:   constants.OpDivide,
 		},
 		{
 			name:    "modulo",
-			op:      "%",
+			op:      constants.OpModulo,
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseAnd",
+			op:      constants.OpBitwiseAnd,
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseOr",
+			op:      constants.OpBitwiseOr,
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseXor",
+			op:      constants.OpBitwiseXor,
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseLeftShift",
+			op:      constants.OpBitwiseLShift,
+			noFloat: true,
+		},
+		{
+			name:    "bitwiseRightShift",
+			op:      constants.OpBitwiseRShift,
 			noFloat: true,
 		},
 	}
@@ -112,13 +138,49 @@ func main() {
 				}
 				echo(`case %v:`, b)
 				if i == j {
-					echo(`return x %v y`, op)
+					if op == constants.OpBitwiseAnd {
+						echo(`return x & y`)
+					} else if op == constants.OpBitwiseOr {
+						echo(`return x | y`)
+					} else if op == constants.OpBitwiseXor {
+						echo(`return x ^ y`)
+					} else if op == constants.OpBitwiseLShift {
+						echo(`return x << y`)
+					} else if op == constants.OpBitwiseRShift {
+						echo(`return x >> y`)
+					} else {
+						echo(`return x %v y`, op)
+					}
 				}
 				if i < j {
-					echo(`return %v(x) %v y`, b, op)
+					if op == constants.OpBitwiseAnd {
+						echo(`return %v(x) & y`, b)
+					} else if op == constants.OpBitwiseOr {
+						echo(`return %v(x) | y`, b)
+					} else if op == constants.OpBitwiseXor {
+						echo(`return %v(x) ^ y`, b)
+					} else if op == constants.OpBitwiseLShift {
+						echo(`return %v(x) << y`, b)
+					} else if op == constants.OpBitwiseRShift {
+						echo(`return %v(x) >> y`, b)
+					} else {
+						echo(`return %v(x) %v y`, b, op)
+					}
 				}
 				if i > j {
-					echo(`return x %v %v(y)`, op, a)
+					if op == constants.OpBitwiseAnd {
+						echo(`return x & %v(y)`, a)
+					} else if op == constants.OpBitwiseOr {
+						echo(`return x | %v(y)`, a)
+					} else if op == constants.OpBitwiseXor {
+						echo(`return x ^ %v(y)`, a)
+					} else if op == constants.OpBitwiseLShift {
+						echo(`return x << %v(y)`, a)
+					} else if op == constants.OpBitwiseRShift {
+						echo(`return x >> %v(y)`, a)
+					} else {
+						echo(`return x %v %v(y)`, op, a)
+					}
 				}
 			}
 			echo(`}`)
