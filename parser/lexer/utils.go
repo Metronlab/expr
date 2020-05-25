@@ -7,6 +7,13 @@ import (
 	"unicode/utf8"
 )
 
+func IsComment(r rune, l *lexer) bool {
+	if l.end >= len(l.input) {
+		return false
+	}
+	return l.input[l.end-1] == '/' && l.input[l.end] == '/'
+}
+
 func IsSpace(r rune) bool {
 	return unicode.IsSpace(r)
 }

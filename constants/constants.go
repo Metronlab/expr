@@ -25,20 +25,18 @@ const (
 	OpEndsWith       = "endsWith"
 	OpMatches        = "matches"
 	OpRange          = ".."
+	OpBitwiseAnd     = "&"
+	OpBitwiseOr      = "|"
+	OpBitwiseXor     = "^"
+	OpBitwiseLShift  = "<<"
+	OpBitwiseRShift  = ">>"
 
 	// Unary Nodes Operators
 	OpPositive   = "+"
 	OpNegative   = "-"
 	OpNotSymbol  = "!"
 	OpNotVerbose = "not"
-
-	// Bitwise Operators
-	OpBitwiseNot    = "~"
-	OpBitwiseAnd    = "&"
-	OpBitwiseOr     = "|"
-	OpBitwiseXor    = "^"
-	OpBitwiseLShift = "<<"
-	OpBitwiseRShift = ">>"
+	OpBitwiseNot = "~"
 
 	SingleOperators       = "+-/%#,?:~^"
 	DoubleFirstOperators  = "&|=*<>!"

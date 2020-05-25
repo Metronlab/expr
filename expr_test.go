@@ -3,13 +3,14 @@ package expr_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/metronlab/expr/ast"
-	"github.com/metronlab/expr/constants"
-	"github.com/metronlab/expr/file"
 	"reflect"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/metronlab/expr/ast"
+	"github.com/metronlab/expr/constants"
+	"github.com/metronlab/expr/file"
 
 	"github.com/metronlab/expr"
 	"github.com/stretchr/testify/assert"
@@ -996,6 +997,23 @@ func TestExpr(t *testing.T) {
 			"27-2" + constants.OpBitwiseRShift + "(+4-3)+-2",
 			24,
 		},
+		// Comments
+		{
+			`	// 1 + 1
+					9 + 5 // 1 + 1
+					// 1 + 1
+					//another comment`,
+			14,
+		},
+		{
+			`	1 + // 1 + 1
+					9 + 5 // 1 + 1`,
+			15,
+		},
+		{
+			`	1 + 1 //1 + 2//`,
+			2,
+		},
 	}
 
 	for _, tt := range tests {
@@ -1024,6 +1042,30 @@ func TestExpr(t *testing.T) {
 
 		assert.Equal(t, tt.want, got, "eval: "+tt.code)
 	}
+}
+
+func TestComments_errors(t *testing.T) {
+	_, err := expr.Compile(
+		`# 2 + 2`,
+	)
+	assert.Error(t, err)
+	_, err = expr.Compile(
+		`	// 2 + 2
+				// 1 + 1`,
+	)
+	assert.Error(t, err)
+	_, err = expr.Compile(
+		"//",
+	)
+	assert.Error(t, err)
+	_, err = expr.Compile(
+		"//1 + 2 comment",
+	)
+	assert.Error(t, err)
+	_, err = expr.Compile(
+		"//1 + 2 \n//comment\n //3+4",
+	)
+	assert.Error(t, err)
 }
 
 func TestExpr_eval_with_env(t *testing.T) {

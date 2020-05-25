@@ -1,8 +1,9 @@
 package lexer
 
 import (
-	"github.com/metronlab/expr/constants"
 	"strings"
+
+	"github.com/metronlab/expr/constants"
 )
 
 type stateFn func(*lexer) stateFn
@@ -12,6 +13,8 @@ func root(l *lexer) stateFn {
 	case r == eof:
 		l.emitEOF()
 		return nil
+	case IsComment(r, l):
+		return l.skipComment(r)
 	case IsSpace(r):
 		l.ignore()
 		return root
