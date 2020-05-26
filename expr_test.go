@@ -999,20 +999,8 @@ func TestExpr(t *testing.T) {
 		},
 		// Comments
 		{
-			`	// 1 + 1
-					9 + 5 // 1 + 1
-					// 1 + 1
-					//another comment`,
-			14,
-		},
-		{
-			`	1 + // 1 + 1
-					9 + 5 // 1 + 1`,
-			15,
-		},
-		{
-			`	1 + 1 //1 + 2//`,
-			2,
+			"//before\n 1 + 1 //ongoing\n\n + 1 //after//\n",
+			3,
 		},
 	}
 
@@ -1046,12 +1034,7 @@ func TestExpr(t *testing.T) {
 
 func TestComments_errors(t *testing.T) {
 	_, err := expr.Compile(
-		`# 2 + 2`,
-	)
-	assert.Error(t, err)
-	_, err = expr.Compile(
-		`	// 2 + 2
-				// 1 + 1`,
+		"//comment1\n//comment2",
 	)
 	assert.Error(t, err)
 	_, err = expr.Compile(
@@ -1060,10 +1043,6 @@ func TestComments_errors(t *testing.T) {
 	assert.Error(t, err)
 	_, err = expr.Compile(
 		"//1 + 2 comment",
-	)
-	assert.Error(t, err)
-	_, err = expr.Compile(
-		"//1 + 2 \n//comment\n //3+4",
 	)
 	assert.Error(t, err)
 }

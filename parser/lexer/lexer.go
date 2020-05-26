@@ -99,14 +99,14 @@ func (l *lexer) word() string {
 	return l.input[l.start:l.end]
 }
 
-func (l *lexer) skipComment(r rune) stateFn {
+func (l *lexer) ignoreComment(r rune) {
 	for l.next() != eof && l.loc.Column != 0 {
 	}
 	if r == eof {
 		l.emitEOF()
-		return nil
 	}
-	return root
+	l.start = l.end
+	l.startLoc = l.loc
 }
 
 func (l *lexer) ignore() {

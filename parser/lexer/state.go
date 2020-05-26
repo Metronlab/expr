@@ -14,7 +14,8 @@ func root(l *lexer) stateFn {
 		l.emitEOF()
 		return nil
 	case IsComment(r, l):
-		return l.skipComment(r)
+		l.ignoreComment(r)
+		return root
 	case IsSpace(r):
 		l.ignore()
 		return root
